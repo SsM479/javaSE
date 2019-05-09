@@ -1,0 +1,84 @@
+package list;
+/**
+ * 作为集合元素测试集合相关操作
+ * @author soft01
+ *
+ * 侵入性 
+ */
+//哪个类实现Comparable接口，泛型就写哪个类
+public class Point implements Comparable<Point>{
+	
+	private int x;
+	private int y;
+	
+	public int getX() {
+		return x;
+	}
+	public void setX(int x) {
+		this.x = x;
+	}
+	public int getY() {
+		return y;
+	}
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public Point(int x, int y) {
+		super();
+		this.x = x;
+		this.y = y;
+	}
+	/*
+	 * 当我们用到一个类(自己定义的类)的toString方法时
+	 * 就应当重写这个方法。返回的字符串没有严格要求内容
+	 * 可根据将来实际开发需求而定。
+	 * 但是原则上返回的字符串中应当包含当前对象的属性信息
+	 */
+	public String toString() {
+		//(1,2)
+		return "("+x+","+y+")";
+	}
+	
+	/*
+	 * Object定义的equals方法的意图时比较两个对象的
+	 * 内容是否相同。但是Object本身提供的equals内部就是
+	 * 用"=="比较的，并无实际意义，所以若希望比较内容就应当重写
+	 * 该方法。java提供的类基本都已经重写过了。
+	 * 只有我们自定义的类需要单独重写。
+	 */
+	public boolean equals(Object o) {
+		if(o == null) {
+			return false;
+		}
+		if(o == this) {
+			return true;
+		}
+		if(o instanceof Point) {
+			Point point = (Point)o;
+			return this.x==point.x&&this.y==point.y;
+		}
+		return false;
+	}
+	/*
+	 * 当一个类实现了Comparable接口后，要求必须实现
+	 * compareTo方法。该方法的作用时定义当前对象this
+	 * 与参数对象o之间的大小关系
+	 * 
+	 * 返回值时一个int值，该值不关心具体取值，只关注取值范围
+	 * 当：
+	 * 返回值>0时：当前对象大于参数对象(this>o)
+	 * 返回值<0时：当前对象小于参数对象(this<o)
+	 * 返回值=0时：两个对象相等
+	 */
+	@Override
+	public int compareTo(Point o) {
+		/*
+		 * 两个点比较大小的方式：点到原点的距离长的大
+		 */
+		int len = this.x*this.x + this.y*this.y;
+		int olen = o.x*o.x + o.y*o.y;
+		return len - olen;
+	}
+	
+}
